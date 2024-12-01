@@ -1,0 +1,10 @@
+build
+dist
+src/collections/media/uploads/*
+src/collections/media/uploads
+node_modules
+.DS_Store
+.env
+.env.local
+.env.staging
+.env.production
