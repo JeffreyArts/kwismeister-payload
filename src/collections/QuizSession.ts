@@ -115,7 +115,8 @@ export const QuizSession: CollectionConfig = {
                 if (players) {
                     players.push({
                         id: player,
-                        name: `Speler ${players.length + 1}`
+                        name: `Speler ${players.length + 1}`,
+                        answers: []
                     })
                 }
                 
@@ -151,19 +152,32 @@ export const QuizSession: CollectionConfig = {
             required: false,
         },
         {
-            name: "roundIndex",
-            type: "number",
+            name: "finished",
+            type: "checkbox",
+            defaultValue: false,
             required: false,
         },
         {
-            name: "questionIndex",
-            type: "number",
+            name: "state",
+            type: "json",
             required: false,
+            defaultValue: {
+                roundIndex: 0,
+                questionIndex: 0,
+                page: "splashscreen" as "splashscreen" | "intro" | "question"
+            }
         },
         {
             name: "players",
             type: "array",
-            fields: [{name: "id", type: "text"},{name: "name", type: "text"}]
+            fields: [
+                {
+                    name: "id", type: "text"
+                },{
+                    name: "name", type: "text"
+                }, {
+                    name: "answers", type: "json"
+                }]
         },
     ],
 }

@@ -111,30 +111,15 @@ export const QuizQuestion: CollectionConfig = {
             type: "group",
             fields: [
                 {
-                    name: "type",
-                    type: "select",
-                    defaultValue: "multi",
-                    options: [
-                        { label: "Media", value: "media" },
-                        { label: "Meerkeuze antwoord", value: "multi" },
-                        { label: "Tekst", value: "text" },
-                    ],
-                    required: true,
-                },{
-                    name: "open",
+                    name: "text",
                     label: "Text",
                     type: "text",
-                    admin: { condition: (data) => data.answer?.type === "text" },
-                },{
+                }, {
                     name: "media",
-                    label: "Media",
-                    type: "group",
-                    admin: { condition: (data) => data.answer?.type === "media" },
-                    fields: [
-                        {name: "img", type: "upload", relationTo: "media"},
-                        {name: "text", type:"text"},
-                    ]
-                },{
+                    type: "upload",
+                    required: false,
+                    relationTo: "media",
+                }, {
                     name: "addition",
                     label: "Toelichting",
                     type: "textarea",
