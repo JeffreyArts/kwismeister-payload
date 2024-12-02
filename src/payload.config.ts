@@ -14,6 +14,7 @@ import { Quiz } from "./collections/Quiz"
 import { QuizQuestion } from "./collections/QuizQuestion"
 import { QuizRound } from "./collections/QuizRound"
 import { QuizTheme } from "./collections/QuizTheme"
+import { QuizPlayer } from "./collections/QuizPlayer"
 
 import cors from "./utils/load-cors-from-env"
 import PluginSocketIO from "./plugins/socket-io/index"
@@ -78,6 +79,7 @@ export default buildConfig({
         QuizQuestion,
         QuizRound,
         QuizTheme,
+        QuizPlayer
     ],
     upload: {
         limits: {

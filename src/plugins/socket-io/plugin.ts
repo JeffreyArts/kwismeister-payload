@@ -1,6 +1,6 @@
 /* eslint-disable no-async-promise-executor */
 import { Payload } from "payload"
-import { CollectionAfterOperationHook } from "payload"
+import { CollectionAfterOperationHook } from "payload/types"
 import type { Plugin } from "payload/config"
 import type { Server, Socket } from "socket.io"
   
@@ -45,8 +45,6 @@ export const PluginSocketIO = (pluginOptions: OptionsPluginSocketIO): Plugin => 
                         req, // full express request
                         result, // the result of the operation, before modifications
                     }) => new Promise(async (resolve, reject) => {
-
-                        console.log("operation", operation)
                         /**
                             * data = {
                             *  public?: {}

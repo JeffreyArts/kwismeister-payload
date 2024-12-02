@@ -75,6 +75,7 @@ export const QuizSession: CollectionConfig = {
                 // const activeQuizId = req.routeParams?.id
                 const result = await req.payload.find({
                     collection: "quiz-session",
+                    depth: 2,
                     where: {
                         id: {
                             equals: activeQuizId
@@ -89,7 +90,8 @@ export const QuizSession: CollectionConfig = {
                 }
                 
                 const activeQuiz = result.docs[0]
-                console.log("result", activeQuiz)
+                
+                // Add quizmaster if it is set
                 if (!activeQuiz["quizMaster"]) {
                     const quizMaster = crypto.randomUUID()
                     await req.payload.update({
@@ -103,33 +105,41 @@ export const QuizSession: CollectionConfig = {
                     // Redirect to the new URL
                     return res.redirect(`${process.env.NEXT_PUBLIC_CLIENT_URI}/kwis/${activeQuiz.id}/kwismeister?kwismeister=${quizMaster}`)
                     // return Response.redirect(`${process.env.NEXT_PUBLIC_CLIENT_URI}/kwis/${quiz.id}/kwismeister?kwismeister=${quizMaster}`)
-                }
-
+                } 
                 
-                const player = crypto.randomUUID()
-                const players = []
+                // Add as player if quiz master is already
+                console.log(activeQuiz)
+                
+                let playerName = "Speler 1"
+                const playerIds = []
                 if (Array.isArray(activeQuiz.players)) {
-                    activeQuiz.players.forEach(p => players.push(p))
-                }
-
-                if (players) {
-                    players.push({
-                        id: player,
-                        name: `Speler ${players.length + 1}`,
-                        answers: []
+                    playerName = `Speler ${activeQuiz.players.length + 1}`
+                    
+                    activeQuiz.players.forEach(p=> {
+                        playerIds.push(p.id)
                     })
                 }
-                
+
+                const player = await req.payload.create({
+                    collection: "quiz-player",
+                    data: {
+                        quizSession: activeQuizId,
+                        name: playerName
+                    }
+                })
+
+                playerIds.push(player.id)
+
                 await req.payload.update({
                     collection: "quiz-session",
                     id: activeQuiz.id,
                     data: {
-                        players: players
+                        players: playerIds
                     }
                 })
 
                 // Redirect to the new URL
-                return res.redirect(`${process.env.NEXT_PUBLIC_CLIENT_URI}/kwis/${activeQuiz.id}/speler?speler=${player}`)
+                return res.redirect(`${process.env.NEXT_PUBLIC_CLIENT_URI}/kwis/${activeQuiz.id}/speler?speler=${player.id}`)
                 // return Response.redirect(`${process.env.NEXT_PUBLIC_CLIENT_URI}/kwis/${activeQuiz.id}/speler?speler=${player}`)
             }
         }  
@@ -164,20 +174,15 @@ export const QuizSession: CollectionConfig = {
             defaultValue: {
                 roundIndex: 0,
                 questionIndex: 0,
-                page: "splashscreen" as "splashscreen" | "intro" | "question"
+                page: "quizNotStarted" as "splashscreen" | "intro" | "question" | "quizNotStarted" | "quizFinished"
             }
         },
         {
             name: "players",
-            type: "array",
-            fields: [
-                {
-                    name: "id", type: "text"
-                },{
-                    name: "name", type: "text"
-                }, {
-                    name: "answers", type: "json"
-                }]
+            type: "relationship",
+            relationTo: "quiz-player",
+            required: false,
+            hasMany: true,
         },
     ],
 }
