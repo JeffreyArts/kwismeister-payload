@@ -10,7 +10,6 @@ export const QuizSession: CollectionConfig = {
     custom: {
         socketAccess: {
             updateByID: (args, operation,result) => {
-                console.log("Update by ID")
                 // Return false to disallow emit
                 // Return {public: boolean | Object<result>}
                 // Return {self: boolean | Object<result>}
@@ -106,9 +105,7 @@ export const QuizSession: CollectionConfig = {
                     // return Response.redirect(`${process.env.NEXT_PUBLIC_CLIENT_URI}/kwis/${quiz.id}/kwismeister?kwismeister=${quizMaster}`)
                 } 
                 
-                // Add as player if quiz master is already
-                console.log(activeQuiz)
-                
+                // Add as player if quiz master is already present
                 let playerName = "Speler 1"
                 const playerIds = []
                 if (Array.isArray(activeQuiz.players)) {
