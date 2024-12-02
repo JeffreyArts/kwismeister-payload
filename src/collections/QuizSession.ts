@@ -8,7 +8,6 @@ export const QuizSession: CollectionConfig = {
         update: () => true,
     },
     custom: {
-        
         socketAccess: {
             updateByID: (args, operation,result) => {
                 console.log("Update by ID")

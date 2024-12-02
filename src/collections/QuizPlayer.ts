@@ -3,8 +3,8 @@ import { CollectionConfig } from "payload/types"
 export const QuizPlayer: CollectionConfig = {
     slug: "quiz-player",
     access: {
-        // read: () => true,
-        // create: () => true,
+        read: () => true,
+        create: () => true,
         update: () => true,
     },
     custom: {
@@ -15,13 +15,12 @@ export const QuizPlayer: CollectionConfig = {
                 // Return {self: boolean | Object<result>}
                 // Return {<room>: boolean | Object<result>}
                 const res = {}
-
-                if (req.body?.name) {
-                    res[`quiz-${result.id}`] = {
-                        name: req.body.name
-                    }
+                const msg = {
+                    id: result.id,
+                    name: req.body.name ? req.body.name : result.name,
                 }
-                
+                res[`quiz-${result.quizSession.id}`] = msg
+
                 return res
             }
         }
@@ -47,20 +46,17 @@ export const QuizPlayer: CollectionConfig = {
             required: false,
             fields: [
                 {
-                    name: "round",
-                    type: "array",
-                    required: false,
-                    fields: [
-                        {
-                            name: "question",
-                            type: "text"
-                        },
-                        {
-                            name: "answer",
-                            type: "text"
-                        }
-                    ]
-                }, 
+                    name: "roundIndex",
+                    type: "number"
+                },
+                {
+                    name: "questionIndex",
+                    type: "number"
+                },
+                {
+                    name: "answer",
+                    type: "text"
+                }
             ]
         }
     ],
