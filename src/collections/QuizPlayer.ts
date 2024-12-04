@@ -1,4 +1,5 @@
 import { CollectionConfig } from "payload/types"
+import { uniqWith } from "lodash"
 
 export const QuizPlayer: CollectionConfig = {
     slug: "quiz-player",
@@ -25,6 +26,19 @@ export const QuizPlayer: CollectionConfig = {
             }
         }
     },
+    hooks: {
+        beforeValidate: [
+            ({data}) => {
+                if (data.answers.length > 0) {
+                    const checkUnique =  (a:{roundIndex: number, questionIndex: number}, b: {roundIndex: number, questionIndex: number}) => {
+                        return a.roundIndex === b.roundIndex && a.questionIndex === b.questionIndex
+                    }
+                    data.answers = uniqWith(data.answers, checkUnique)
+                }
+                console.log("Before validate",data)
+            }
+        ]
+    },
     admin: {
         useAsTitle: "name"
     },
@@ -46,16 +60,37 @@ export const QuizPlayer: CollectionConfig = {
             required: false,
             fields: [
                 {
-                    name: "roundIndex",
-                    type: "number"
-                },
-                {
-                    name: "questionIndex",
-                    type: "number"
-                },
-                {
-                    name: "answer",
-                    type: "text"
+                    type: "row",
+                    fields: [
+                        {
+                            name: "answer",
+                            type: "text",
+                            admin: {
+                                width: "25%"
+                            }
+                        },
+                        {
+                            name: "manual_correct",
+                            type: "checkbox",
+                            admin: {
+                                width: "25%"
+                            }
+                        },
+                        {
+                            name: "roundIndex",
+                            type: "number",
+                            admin: {
+                                width: "25%"
+                            }
+                        },
+                        {
+                            name: "questionIndex",
+                            type: "number",
+                            admin: {
+                                width: "25%"
+                            }
+                        },
+                    ]
                 }
             ]
         }
