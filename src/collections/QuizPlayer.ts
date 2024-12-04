@@ -29,7 +29,7 @@ export const QuizPlayer: CollectionConfig = {
     hooks: {
         beforeValidate: [
             ({data}) => {
-                if (data.answers.length > 0) {
+                if (data.answers && data.answers.length > 0) {
                     const checkUnique =  (a:{roundIndex: number, questionIndex: number}, b: {roundIndex: number, questionIndex: number}) => {
                         return a.roundIndex === b.roundIndex && a.questionIndex === b.questionIndex
                     }
