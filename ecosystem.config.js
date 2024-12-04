@@ -1,6 +1,7 @@
 const env = process.env.NODE_ENV ? `.env.${process.env.NODE_ENV}` : ".env"
 
-require("dotenv").config({ path: env })
+import dotenv from "dotenv"
+dotenv.config({ path: env })
 
 module.exports = {
     apps: [{
@@ -17,7 +18,7 @@ module.exports = {
             user: process.env.DEPLOYMENT_USER,
             host: process.env.DEPLOYMENT_HOST,
             ref: "origin/main",
-            repo: "git@jeff-payload.github.com:JeffreyArts/kwis-backend.git",
+            repo: "git@jeff-payload.github.com:JeffreyArts/kwismeister-payload.git",
             path: process.env.DEPLOYMENT_PATH,
             "post-deploy": "nvm use 20 && yarn install && yarn build && pm2 reload ecosystem.config.js --env staging"
         }

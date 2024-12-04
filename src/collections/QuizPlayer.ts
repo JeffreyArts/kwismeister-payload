@@ -35,7 +35,6 @@ export const QuizPlayer: CollectionConfig = {
                     }
                     data.answers = uniqWith(data.answers, checkUnique)
                 }
-                console.log("Before validate",data)
             }
         ]
     },
