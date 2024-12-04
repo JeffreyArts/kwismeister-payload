@@ -18,7 +18,7 @@ module.exports = {
             user: process.env.DEPLOYMENT_USER,
             host: process.env.DEPLOYMENT_HOST,
             ref: "origin/main",
-            repo: "git@jeff-payload.github.com:JeffreyArts/kwismeister-payload.git",
+            repo: "git@github.com:JeffreyArts/kwismeister-payload.git",
             path: process.env.DEPLOYMENT_PATH,
             "post-deploy": "nvm use 20 && yarn install && yarn build && pm2 reload ecosystem.config.js --env production"
         }
