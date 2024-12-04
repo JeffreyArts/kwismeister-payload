@@ -9,3 +9,5 @@ First time deploying, you'll need to run the pm2 setup script.
 ```
 pm2 deploy ecosystem.config.js production setup
 ```
+
+And copy the contents of the `.env.production` file from your local environment over to the server, and put them in `.env` (no production addefix). 
