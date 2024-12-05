@@ -83,7 +83,7 @@ export default buildConfig({
     ],
     upload: {
         limits: {
-            fileSize: 10000000, // 10MB, written in bytes
+            fileSize: 8000000, // 8MB, written in bytes
         },
     },
     cors: cors.includes("*") ? "*" : cors,
